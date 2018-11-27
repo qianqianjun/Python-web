@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>弹幕界面</title>
+	<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="js/index.js"></script>
+	<script type="text/javascript">
+		arr=new Array();
+		function run(id) {
+			index=parseInt(id.slice(1,id.length));
+			left=document.getElementById(id).style.left;
+			num=parseInt(left);
+			num+=1;
+			document.getElementById(id).style.left=""+num+"px";
+			if(num>=2400)
+			{
+				clearInterval(arr[index]);
+				document.getElementById(id).setAttribute("style","display:none");
+			}
+		}
+		$(document).ready(function () {
+			$(".screen").css("height",window.innerHeight+"px");
+			$(".screen").css("background-color","#92f7f742");
+			selectSet=new Array();
+			var num=0;
+			// 定义一共有多少商品
+			total=1000;
+			interval=setInterval(function () {
+				Row=new Array();
+				Col=new Array();
+				for(let i=0;i<5;i++)
+				{
+					Row.push(0);
+					Col.push(0);
+				}
+				// 规定每次显示的商品条数是多少
+				for(let i=num;i<num+3;i++)
+				{
+					if(i>=total)
+					{
+						setTimeout(function () {
+							clearInterval(interval);
+							window.location.href="https://www.baidu.com";
+						},17000);
+						break;
+					}
+					left=0;
+					top1=0;
+					while(true)
+					{
+						row=Math.round(Math.random()*3);
+						col=Math.round(Math.random()*4);
+						if(Row[row]==0&&Col[col]==0)
+						{
+							top1=col*130;
+							left=row*(-150);
+							Row[row]=1;
+							Col[col]=1;
+							break;
+						}
+					}
+					html="<div id='d"+i+"' class='item' onmouseover='stop(this.id)' onmouseout='go(this.id)' style='top:"+top1+"px;left:"+left+"px;' onclick='buy(this.id)'></div>";
+					$(".screen").append(html);
+					arr.push(setInterval(function () {
+						run("d"+i);
+					},10));
+				}
+				num+=3;
+			},4500);
+
+		});
+		function go(id) {
+			index=parseInt(id.slice(1,id.length));
+			if(arr[index]!=null)
+				clearInterval(arr[index]);
+			arr[index]=setInterval(function() {
+				run(id);
+			},10);
+		}
+		function stop(id) {
+			index=parseInt(id.slice(1,id.length));
+			clearInterval(arr[index]);
+		}
+		function buy(id) {
+			index=parseInt(id.slice(1,id.length));
+			left=document.getElementById(id).style.left;
+			top2=document.getElementById(id).style.top;
+			numleft=parseInt(left);
+			numtop=parseInt(top2)
+			clearInterval(arr[index]);
+			selectSet.push(index);
+			wid=window.innerWidth;
+			hei=window.innerHeight;
+			y=hei-numtop;
+			x=wid-numleft;
+			dx=x/y;
+			document.getElementById(id).setAttribute("onmouseout","");
+			cao=setInterval(function(argument) {
+				 numtop+=2;
+				 numleft+=2*dx;
+				 document.getElementById(id).style.left=""+numleft+"px";
+				 document.getElementById(id).style.top=""+numtop+"px";
+				 if(numleft>=wid)
+				 {
+				 	document.getElementById(id).setAttribute("display","none");
+				 	clearInterval(cao);
+				 }
+			},8);
+		}
+	</script>
+	<style type="text/css">
+		.item{
+			width: 100px;
+			height: 100px;
+			position: absolute;
+			left: -1000px;
+			top: 0px;
+			background-color: red;
+		}
+	</style>
+</head>
+<body style="overflow: hidden;">
+	<div class="screen">
+	</div>
+	<div class="container"></div>
+</body>
+</html>

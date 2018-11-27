@@ -18,7 +18,7 @@ class getInfoThread(threading.Thread):
     threadId=0
     website={}
     #这里规定爬取的起始url:
-    website["amazon"]="https://www.amazon.cn/s/ref=sr_pg_1?rh=i%3Aaps%2Ck%3A&page=1&keywords="
+    website["amazon"]="https://www.amazon.cn/s/ref=sr_pg_2?rh=i%3Aaps%2Ck%3A&page=1&keywords="
     website["tianmao"]=""
     def __init__(self,keyword,type,amount):
         self.id=getInfoThread.threadId
@@ -44,6 +44,7 @@ def AmazongetInfo(url,keyword,amount):
     resultSet=[]
     driver.get(url)
     # driver.implicitly_wait(10)
+    print(driver.page_source)
     while length<amount:
         selector = etree.HTML(driver.page_source)
         infos = selector.xpath('//ul[@id="s-results-list-atf"]/li')
@@ -83,7 +84,7 @@ def AmazongetInfo(url,keyword,amount):
             resultSet.append(good)
             length+=1
         if length<amount:
-            driver.find_element_by_xpath('//div[@id="search-main-wrapper"]//div[@id="centerBelowMinus"]//a[@id="pagnNextLink"]')
+            driver.find_element_by_xpath('//div[@id="search-main-wrapper"]//div[@id="centerBelowMinus"]//a[@id="pagnNextLink"]').click()
             next=selector.xpath('//div[@id="search-main-wrapper"]//div[@id="centerBelowMinus"]//a[@id="pagnNextLink"]/@href')
             print(next)
     driver.close()

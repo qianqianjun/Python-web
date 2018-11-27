@@ -1,0 +1,96 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+#body{
+    background-image: url(../images/background.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+}
+.center{
+    margin:0 auto;
+    width: 1000px;
+    height: 550px;
+    margin-top: 100px;
+    text-align: center;
+    overflow: hidden;
+}
+.item{
+    
+width: 350px;
+}
+.machine{
+    text-align: center;
+    background-image: url(../images/machine.png);
+    height: 110%;
+    background-size: cover;
+    width: 120%;
+    background-position-x: -150px;
+    background-position-y: -50px;
+}
+#target{
+    z-index: 100;
+    position: relative;
+    height: 280px;
+    overflow: hidden;
+    left: -150px;
+    top: 83px;
+    text-align: center;
+}
+#control{
+    background-image: url(../images/machine1.png);
+    background-repeat: no-repeat;
+    position: relative;
+    background-size: contain;
+    display: inline-block;
+    width: 100px;
+    height: 600px;
+    top: -267px;
+    left: 138px;
+}
+#control2{
+    background-image: url(../images/machine2.png);
+    background-repeat: no-repeat;
+    position: relative;
+    background-size: contain;
+    display: inline-block;
+    width: 100px;
+    height: 600px;
+    top: -163px;
+    left: 138px;
+}
+#start{
+    position: relative;
+    top: 84px;
+    left: 170px;
+    /*background-color: red;*/
+    padding: 31px;
+    z-index: 10000000;
+}
+.end{
+    position: relative;
+    top: 398px;
+    height: 100px;
+    padding: 31px;
+    left: 110px;
+    /*background-color: red;*/
+    z-index: 100000000;
+}
+.screen{
+    background-color: "#92f7f742";
+    width: 100%;
+    height: 100px;
+    overflow: hidden;
+}
+.container{
+    position: absolute;
+    bottom: 0;
+    right: 20px;
+    width: 100px;
+    height: 100px;
+    background-image: url(../images/container.jpg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    /* background-color: red; */
+}
