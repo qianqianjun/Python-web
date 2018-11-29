@@ -24,6 +24,7 @@ def get_info(url,keyword,amount):
     option = webdriver.ChromeOptions()
     option.add_argument("--start-maximized")
     option.add_argument("--disable-infobars")
+    option.add_argument("headless")
     browser = webdriver.Chrome(chrome_options=option)#executable_path='chromedriver.exe'
     try:
         browser.get(url)
