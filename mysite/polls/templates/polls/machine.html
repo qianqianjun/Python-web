@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>随机选择界面</title>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript">
+    	$(document).ready(function(){
+			$(".back").css("height",window.innerHeight);
+            interval=null;
+            arr=new Array();
+            for(let i=0;i<5;i++)
+            {
+                arr[i]=new Array();
+            }
+            for(let i=0;i<arr.length;i++)
+            {
+                arr[i].push("images/demo"+i+".jpg");
+                arr[i].push("https://www.baidu.com");
+            }
+    	});
+        function beginrun() {
+            if(interval!=null)
+                clearInterval(interval);
+            interval=setInterval(run,100);
+            document.getElementById('control').setAttribute("style","display:none");
+            document.getElementById('control2').setAttribute("style","display:inline-block")
+        };
+        function endrun() {
+            if(interval!=null)
+            {
+                clearInterval(interval);
+                console.log(interval);
+                document.getElementById('control2').setAttribute("style","display:none");
+                document.getElementById('control').setAttribute("style","display:inline-block")
+            }
+        }
+    </script>
+</head>
+<body id="body">
+	<div class="center">
+        <div class="machine">
+            <span id="start" onclick="beginrun()"></span>
+            <span class="end" onclick="endrun()"></span>
+        	<div id="target">
+        		<a href="https://www.baidu.com" id="link">
+        			<img src="images/demo0.jpg" class="item" id="image">
+        		</a>
+        	</div>
+        	<div id="control"></div>
+            <div id="control2" style="display: none;"></div>
+        </div>
+        <div style="display: none;" id="temp">
+        	<a href="https://www.sougou.com">
+    			<img src="images/demo0.jpg" class="item">
+    		</a>
+    		<a href="https://github.com">
+    			<img src="images/demo1.jpg" class="item">
+    		</a>
+    		<a href="https://www.buct.edu.cn">
+    			<img src="images/demo2.jpg" class="item">
+    		</a>
+    		<a href="https://mail.buct.edu.cn">
+    			<img src="images/demo3.jpg" class="item">
+    		</a>
+    		<a href="http://http://www.runoob.com">
+    			<img src="images/demo4.jpg" class="item">
+    		</a>
+    		<a href="https://www.baidu.com">
+    			<img src="images/demo5.jpg" class="item">
+    		</a>
+        </div>
+	</div>
+</body>
+</html>

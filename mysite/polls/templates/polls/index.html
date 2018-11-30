@@ -1,19 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Home</title>
+	<meta charset="utf-8">
+	<title>主页</title>
+	<link rel="stylesheet" type="text/css" href="/static/css/main.css">
 </head>
 <body>
-
-{% if latest_question_list %}
-    <ul>
-    {% for question in latest_question_list %}
-        <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No polls available.</p>
-{% endif %}
+	<div class="content">
+		<div class="logo">
+			<img src="" class="image">
+		</div>
+		<div class="title">quick shopping</div>
+		<div class="keyword">
+			<form method="post" action="/polls/postKeyword">
+                {% csrf_token %}
+				<input type="text" name="keyword" class="input" required="required"><br>
+				<input type="submit" class="button" value="Search">
+			</form>
+		</div>
+	</div>
 </body>
 </html>
