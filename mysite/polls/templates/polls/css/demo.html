@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>随机提问</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="js/index.js"></script>
+	<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$(".back").css("height",window.innerHeight);
+		});
+	</script>
+</head>
+<body>
+	<div class="back">
+		<div class="main">
+			<h2 class="title">寻找帅哥和美女</h2>
+			<div class="result">？？？</div><br>
+			<button class="button begin" style="vertical-align:middle"><span>开始 </span></button>
+			<button class="button end" style="vertical-align:middle"><span>选定 </span></button>
+		</div>
+		<div class="footer">Power By 高谦 2018   源代码地址：https://github.com/qianqianjun/ChoosePeople   绝对公正，欢迎检查！</div>
+	</div>
+	<script type="text/javascript">
+		var num;
+		var people=new Array('安天誉','柴兆颖','陈博雄','陈伟','代林豪','段浩楠','樊放','方正','高波','高谦','龚琢斯','郭彩莲','郭冲','郭海涛','郝鹏程','何川','何伟汉','何伟勋','何宜江','何章灿','黄宇','贾梦楠','柯剑聪','李海琪','李婳','李佳珉','李金东','李梅','李梦','李霄','李展鹏','林逸晨','刘安岐','刘邦富','刘坤','刘丽萍','刘权达','刘天星','刘威','刘烨','刘子皓','卢丽云','吕茂斌','马梦秋','蒙洁','孟庆强','孟章希','牟科浩','乔鹏','史淳静','粟凡义','孙伟峰','唐艺菡','陶韬','汪家骏','王晨','王家伟','王靖萍','王诗媛','王雪松','王艺琳','王宇剑','王泽','温碧凡','吴灏兵','吴亚纬','吴越','席翔','徐明瑞','许红林','许人杰','薛博元','杨帆','杨兰斌','杨亮','姚帅','尹继威','游淑珍','于筌','余姣瑶','余中瑞','袁奎','詹鹏','张东东','张昊斌','张书茂','张文韬','张小辉','张熠坤','张雨婷','赵伟杰','赵梓伟','周华琳','周硕','周志伟','祝浩铭','邹骏');
+		var except=new Array();
+		function replaceelem()
+		{
+			num=Math.floor((Math.random()*100)%people.length);
+			$(".result").empty();
+			$(".result").text(people[num]);
+		}
+		$(".begin").click(function(){
+			time=setInterval(replaceelem,20);
+		});
+		$(".end").click(function(){
+			clearInterval(time);
+			if(except.indexOf(num)>=0)
+			{
+				while(except.indexOf(num)>=0)
+				{
+					num=(num+1)%people.length;
+				}
+				except.push(num);
+				$(".result").empty();
+			    $(".result").text(people[num]);
+				console.log(num);
+			}
+			else
+			{
+				except.push(num);
+				console.log(num);
+			}
+		});
+	</script>
+</body>
+</html>

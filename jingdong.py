@@ -78,7 +78,6 @@ while length < amount:
         good.source = 'jingdong'
         good.url = address[i]
         good.image=img1[i]
-        print(img1)
         print(good.name,good.price,good.url,good.image)
         length+=1
         # if good.price != "" and good.name != "" and good.image != "":
