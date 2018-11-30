@@ -1,15 +1,8 @@
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException
-import csv
-import time
-import random
 from lxml import etree
 from bs4 import BeautifulSoup
 browser = webdriver.Chrome()
-browser.get('https://passport.jd.com/new/login.aspx?ReturnUrl=https%3A%2F%2Fwww.jd.com%2F%3Fcu%3Dtrue%26utm_source%3Dbaidu-pinzhuan%26utm_medium%3Dcpc%26utm_campaign%3Dt_288551095_baidupinzhuan%26utm_term%3D0f3d30c8dba7459bb52f2eb5eba8ac7d_0_98499a1706544825a9c774e84f7c2e6d')
+browser.get('https://www.jd.com/')
 browser.implicitly_wait(10)
 browser.find_element_by_css_selector("[class='QQ-icon']").click()
 browser.implicitly_wait(10)
@@ -18,7 +11,7 @@ browser.implicitly_wait(10)
 print(browser.page_source)
 browser.find_element_by_id("switcher_plogin").click()
 #browser.find_element_by_class_name("img_out_focus").click()
-browser.find_element_by_class_name("inputstyle").send_keys('673057470')
+browser.find_element_by_class_name("inputstyle").send_keys('1905946527')
 browser.find_element_by_css_selector("[class='inputstyle password']").send_keys('')
 browser.find_element_by_id("login_button").click()
 browser.find_element_by_id("key").send_keys('iphone8')
