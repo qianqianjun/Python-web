@@ -81,7 +81,7 @@ DATABASES = {
         'NAME': 'testpy',
         'HOST':'127.0.0.1',
         'USER':'root',
-        'PASSWORD':'13949908673Judy',
+        'PASSWORD':'root',
         'PORT':'3306'
     }
 }

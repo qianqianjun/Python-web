@@ -12,7 +12,8 @@ import time
 #把参数传给html
 def index(request):
     return render(request,"polls/index.html")
-
+def barrage(request):
+	return render(request,"polls/barrage.html")
 
 @csrf_exempt
 def goods(request,kw):

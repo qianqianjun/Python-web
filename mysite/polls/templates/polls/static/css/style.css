@@ -94,3 +94,39 @@ width: 350px;
     background-repeat: no-repeat;
     /* background-color: red; */
 }
+.content{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.image{
+    width: 144px;
+    height: 144px;
+    border-radius: 72px;
+    overflow: hidden;
+    position: relative;
+    top: 29px;
+    left: 44px;
+}
+.image img{
+    width: 100%;
+    height: auto;
+}
+.price{
+    margin-top: 25px;
+    font-size: 25px;
+    margin-left: 10px;
+    color: red;
+    font-weight: bold;
+}
+.name{
+    font-size: 15px;
+    margin-left: 15px;
+    color: #998484;
+}
+.source{
+    font-size: 20px;
+    margin-left: 15px;
+    color: #999;
+    text-decoration: underline;
+}

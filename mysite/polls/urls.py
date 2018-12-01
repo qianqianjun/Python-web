@@ -7,5 +7,6 @@ urlpatterns=[
     path('postKeyword',views.postKeyword),
     path('goods/<str:kw>',views.goods,name='goods'),
     path('',views.index,name='index'),
+    path('barrage',views.barrage,name='barrage'),
 ]
 urlpatterns += staticfiles_urlpatterns()
