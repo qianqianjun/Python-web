@@ -12,16 +12,37 @@ import time
 #把参数传给html
 def index(request):
     return render(request,"polls/index.html")
+
+@csrf_exempt
 def barrage(request):
-	return render(request,"polls/barrage.html")
+    kw=request.POST.get("barrage_kw",None)
+    good_list = Goods.objects.filter(keyword=kw)
+    id_list=[i for i in range(len(good_list))]
+    good_id=zip(good_list,id_list)
+    context = {
+        'goods': good_list,
+        'id_incre':len(good_list),
+        'good_id':good_id
+    }
+    return render(request, 'polls/barrage.html', context)
 
 @csrf_exempt
 def goods(request,kw):
-
     good_list=Goods.objects.filter(keyword=kw)
-    context = {
-        'goods': good_list
-    }
+    paginator=Paginator(good_list,12)
+    page=request.GET.get('page')
+    try:
+        context = {
+            'goods': paginator.page(page)
+        }
+    except PageNotAnInteger:
+        context = {
+            'goods': paginator.page(1)
+        }
+    except EmptyPage:
+        context = {
+            'goods': paginator.page(paginator.num_pages)
+        }
     return render(request,'polls/goods.html',context)
 
 @csrf_exempt

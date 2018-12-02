@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <base target="_blank" />
 	<meta charset="utf-8">
 	<title>结果详情页面</title>
 	<link rel="stylesheet" type="text/css" href="/static/css/detail.css">
@@ -10,22 +9,30 @@
 	<div class="header">
 		<div class="logo">quick shoping</div>
 		<div class="input">
-			<form action="" method="post">
+			<form action="/polls/postKeyword" method="post">
 				<input type="text" name="keyword" class="keyword" required="required">
 				<input type="submit" class="button">
 			</form>
 		</div>
+        <div>
+            {% for item in goods|slice:":1" %}
+                    <form action="/polls/barrage" method="post">
+                        <input type="hidden" name="barrage_kw"  value={{item.keyword }}>
+                        <button type="submit"><img style="position: absolute;  right: 0;top: 0; border: 0;z-index:999999999" src="/static/images/ribbon.png" alt="Barrage" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png"></button>
+                    </form>
+            {% endfor %}
+		</div>
 	</div>
-	<div class="content">
+	<div class="content" target="_blank">
         {% for item in goods %}
 		<div class="item">
-			<a href={{ item.url }}>
+			<a href={{ item.url }} target="_blank">
 				<div class="imagecontainer">
-					<img src={{ item.picture }} class="image">
+					<img src={{ item.picture }} class="image" target="_blank">
 				</div>
 			</a>
 			<div class="price">{{ item.price }}</div>
-			<a href={{ item.url }}>
+			<a href={{ item.url }} target="_blank">
 				<div class="name">{{ item.name }}</div>
 			</a>
 			<div class="source"><span>{{ item.source }}</span></div>
@@ -33,18 +40,30 @@
 		{% endfor %}
 
 	</div>
-	<div class="page">
-		<div class="perpage">
-			<ul class="link">
-				<li>上一页</li>
-				<li>1</li>
-				<li>2</li>
-				<li>3</li>
-				<li>4</li>
-				<li>5</li>
-				<li>下一页</li>
-			</ul>
-		</div>
-	</div>
+    <div class="page">
+    <div class=perpage">
+    <nav aria-label="Page navigation">
+        <ul class="link">
+            {% if goods.has_previous %}
+                <a href="?page={{ goods.previous_page_number }}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            {% endif %}
+            {% for pg in goods.paginator.page_range %}
+                {% if goods.number == pg %}
+                    <li class="active"><a href="?page={{ pg }}">{{ pg }}</a></li>
+                {% else %}
+                    <li><a href="?page={{ pg }}">{{ pg }}</a> </li>
+                {% endif %}
+            {% endfor %}
+            {% if goods.has_next %}
+                <a href="?page={{ goods.next_page_number }}" aria-label="Next">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            {% endif %}
+        </ul>
+    </nav>
+    </div>
+    </div>
 </body>
 </html>
