@@ -97,7 +97,7 @@ def postKeyword(request):
                         good.name = name[0]
                         link = i.xpath('div/div[@class="a-row a-spacing-mini"]/div/a/@href')[0]
                         print(link)
-                        good.link = link
+                        good.url = link
                         price = i.xpath('div/div[5]/div[1]/a/span[2]/text()')[0]
                         print(price)
                         good.price = price
@@ -113,14 +113,14 @@ def postKeyword(request):
                         link1 = i.xpath('div/div[4]/div[1]/a/@href')
                         link = "https://www.amazon.cn" + link1[0]
                         print(link)
-                        good.link = link
+                        good.url = link
                         price = i.xpath('div/div[last()]/div/a/span[2]/text()')[0]
                         print(price)
                         good.price = price
                     except:
                         pass
                 good.source = "Amazon"
-                if good.price != "" and good.name != "" and good.link != "" and good.image != "":
+                if good.price != "" and good.name != "" and good.url != "" and good.image != "":
                     resultSet.append(good)
                     length += 1
                     flag = True
