@@ -136,89 +136,26 @@
 		<!-- 下面用循环输出就好，js已经实现了所有的功能，无序后端信号 -->
 		<!-- 一条商品信息开始 -->
 		<!-- 这个id是确定的，表示这是第几个数据，从0开始算 -->
-		<div id="c0">
+
+       {% for item,id in good_id %}
+		<div id=c{{id}}>
+
 			<div class="content">
 				<div class="image">
-					<img src="/static/images/demo0.jpg">
+					<img src={{ item.picture }}>
 				</div>
 				<div class="price">
-					￥100
+					{{ item.price }}
 				</div>
 				<div class="name">
-					这里写名字	
+					{{ item.name }}
 				</div>
 				<div class="source">
-					Amazon
+					{{ item.source }}
 				</div>
 			</div>
 		</div>
-		<!-- 一条商品信息结束 -->
-		<div id="c1">
-			<div class="content">
-				<div class="image">
-					<img src="/static/images/demo1.jpg">
-				</div>
-				<div class="price">
-					￥100
-				</div>
-				<div class="name">
-					这里写名字	
-				</div>
-				<div class="source">
-					Amazon
-				</div>
-			</div>
-		</div>
-		<div id="c2">
-			<div class="content">
-				<div class="image">
-					<img src="/static/images/demo2.jpg">
-				</div>
-				<div class="price">
-					￥100
-				</div>
-				<div class="name">
-					这里写名字	
-				</div>
-				<div class="source">
-					Amazon
-				</div>
-			</div>
-		</div>
-		<div id="c3">
-			<div class="content">
-				<div class="image">
-					<img src="/static/images/demo3.jpg">
-				</div>
-				<div class="price">
-					￥100
-				</div>
-				<div class="name">
-					这里写名字	
-				</div>
-				<div class="source">
-					Amazon
-				</div>
-			</div>
-		</div>
-		<div id="c4">
-			<div class="content">
-				<div class="image">
-					<img src="/static/images/demo4.jpg">
-				</div>
-				<div class="price">
-					￥100
-				</div>
-				<a href="https://www.baidu.com">
-					<div class="name">
-						这里写名字	
-					</div>
-				</a>
-				<div class="source">
-					Amazon
-				</div>
-			</div>
-		</div>
+        {% endfor %}
 	</div>
 </body>
 </html>
