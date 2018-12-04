@@ -10,7 +10,7 @@
 		<div class="logo">quick shoping</div>
 		<div class="input">
 			<form action="/polls/postKeyword" method="post">
-				<input type="text" name="keyword" class="keyword" required="required">
+				<input type="text" name="keyword" class="keyword" required="required" id="goodword" value={{item.keyword }}>
 				<input type="submit" class="button">
 			</form>
 		</div>
@@ -18,7 +18,9 @@
             {% for item in goods|slice:":1" %}
                     <form action="/polls/barrage" method="post">
                         <input type="hidden" name="barrage_kw"  value={{item.keyword }}>
-                        <button type="submit"><img style="position: absolute;  right: 0;top: 0; border: 0;z-index:999999999" src="/static/images/ribbon.png" alt="Barrage" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png"></button>
+                        <button type="submit" style="    border: none;background-color: #ff000000;">
+                            <img style="position: absolute;  right: 0;top: 0; border: 0;z-index:999999999" src="/static/images/ribbon.png" alt="Barrage" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png">
+                        </button>
                     </form>
             {% endfor %}
 		</div>

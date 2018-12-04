@@ -20,7 +20,7 @@ class Choice(models.Model):
 class Goods(models.Model):
     name=models.CharField(max_length=200)
     price=models.CharField(max_length=20)
-    url=models.CharField(max_length=500)
+    url=models.CharField(max_length=1000)
     picture=models.CharField(max_length=300)
     source=models.CharField(max_length=20)
     keyword=models.CharField(max_length=50,default='')

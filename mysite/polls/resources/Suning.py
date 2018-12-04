@@ -71,4 +71,9 @@ def Suninggetinfo(driver,url,keyword,amount):
     #     print()
     # browser.quit()
     for item in resultSet:
-            Goods.objects.create(name=item.name, source=item.source, url=item.url, picture=item.image, price=item.price,keyword=keyword)
+        #增加数据验证的支持：防止url等太长添加不进去
+        if item.price != "" and item.name != "" and item.url != "" and item.image != "" and len(
+                item.url) <= 1000 and len(item.image) <= 300 and len(item.price) < 20 \
+                and len(item.name) < 200:
+            continue
+        Goods.objects.create(name=item.name, source=item.source, url=item.url, picture=item.image, price=item.price,keyword=keyword)

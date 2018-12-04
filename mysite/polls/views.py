@@ -8,23 +8,38 @@ import time
 from .resources.Amazon import *
 from .resources.Jingdong import *
 from .resources.Suning import *
-
-global startSpider
-startSpider = False
-
 urls = {'Amazon': 'https://www.amazon.cn/s/ref=sr_pg_2?rh=i%3Aaps%2Ck%3A&keywords=',
         'Jingdong': 'https://search.jd.com/Search?&enc=utf-8&qrst=1&rt=1&stop=1&vt=2',
         'Suning': 'https://www.suning.com/'
         }
-
-
+class GoodItem(object):
+    def __init__(self):
+        # 商品名称
+        self.name = ""
+        # 价格
+        self.price = ""
+        # 图片
+        self.image = ""
+        # 来源：亚马逊
+        self.source = ""
+        # 详情链接：
+        self.url = ""
+def init(kw):
+    keyword = kw
+    try:
+        initialMount = 30
+        # 这里需要为每一个网站分配爬取的数量，现在只有亚马逊一个
+        # 开启一个新的线程，亚马逊，京东，天猫，苏宁分别是独立的线程。
+        FirstThread = getInfoThread(keyword, "first", initialMount)
+        FirstThread.start()
+        FirstThread.join()
+        # print(111)
+        # 其他线程：……
+    except Exception as e:
+        print(str(e))
 class getInfoThread(threading.Thread):
     threadId = 0
     website = {}
-    # 这里规定爬取的起始url:
-    # website["amazon"] = "https://www.amazon.cn/s/ref=sr_pg_2?rh=i%3Aaps%2Ck%3A&keywords="
-    # website["tianmao"] = "https://search.jd.com/Search?&enc=utf-8&qrst=1&rt=1&stop=1&vt=2"
-    # website[""]
     def __init__(self, keyword, type, amount):
         self.id = getInfoThread.threadId
         getInfoThread.threadId += 1
@@ -35,24 +50,28 @@ class getInfoThread(threading.Thread):
 
     def run(self):
         if self.type == "first":
-            # url = getInfoThread.website[self.type]
-            # AmazongetInfo(url, self.keyword, self.amount)
             self.multicrawler()
         elif self.type == "jingdong":
-            driver = webdriver.Chrome()
+            option = webdriver.ChromeOptions()
+            option.add_argument("headless")
+            driver = webdriver.Chrome(chrome_options=option)
             JingdonggetInfo(driver,urls['Jingdong'],self.keyword,self.amount)
             driver.close()
         elif self.type == "amazon":
-            driver = webdriver.Chrome()
+            option = webdriver.ChromeOptions()
+            option.add_argument("headless")
+            driver = webdriver.Chrome(chrome_options=option)
             AmazongetInfo(driver, urls['Amazon'], self.keyword, self.amount)
             driver.close()
         elif self.type == "suning":
-            driver = webdriver.Chrome()
+            option = webdriver.ChromeOptions()
+            option.add_argument("headless")
+            driver = webdriver.Chrome(chrome_options=option)
             Suninggetinfo(driver, urls['Suning'], self.keyword, self.amount)
             driver.close()
     def multicrawler(self):
         option = webdriver.ChromeOptions()
-        # option.add_argument("headless")
+        option.add_argument("headless")
         driver = webdriver.Chrome(chrome_options=option)
         amount = 30
         JingdonggetInfo(driver, urls['Jingdong'], self.keyword, amount//3)
@@ -60,31 +79,9 @@ class getInfoThread(threading.Thread):
         Suninggetinfo(driver,urls['Suning'],self.keyword,amount//3)
         driver.quit()
 
-
 # 把参数传给html
 def index(request):
-#<<<<<<< HEAD
     return render(request, "polls/index.html")
-
-
-
-'''@csrf_exempt
-def goods(request,kw):
-    good_list = Goods.objects.filter(keyword=kw)
-    context = {
-        'goods': good_list
-	amount = 30
-    Amazon = getInfoThread(kw, "amazon", amount)
-    Amazon.start()
-    Jingdong = getInfoThread(kw, "jingdong", amount)
-    Jingdong.start()
-    Suning = getInfoThread(kw, "suning", amount)
-    Suning.start()
-    }'''
-    
-#=======
-    #return render(request,"polls/index.html")
-
 @csrf_exempt
 def barrage(request):
     kw=request.POST.get("barrage_kw",None)
@@ -97,7 +94,6 @@ def barrage(request):
         'good_id':good_id
     }
     return render(request, 'polls/barrage.html', context)
-
 @csrf_exempt
 def goods(request,kw):
     good_list=Goods.objects.filter(keyword=kw)
@@ -115,58 +111,23 @@ def goods(request,kw):
         context = {
             'goods': paginator.page(paginator.num_pages)
         }
-    amount = 30
-    Amazon = getInfoThread(kw, "amazon",amount)
-    Amazon.start()
-    Jingdong = getInfoThread(kw, "jingdong",amount)
-    Jingdong.start()
-    Suning = getInfoThread(kw, "suning",amount)
-    Suning.start()	
     return render(request,'polls/goods.html',context)
-#>>>>>>> a627eebc91ade8472b0a9ee23f1817c90f55d501
-
-    #return render(request, 'polls/goods.html', context)
-@csrf_exempt
-def goodswithoutstarts(request,kw):
-    good_list = Goods.objects.filter(keyword=kw)
-    context = {
-        'goods': good_list
-    }
-    return render(request, 'polls/goods.html', context)
 @csrf_exempt
 def postKeyword(request):
     kw = request.POST.get('keyword', None)
-    class GoodItem(object):
-        def __init__(self):
-            # 商品名称
-            self.name = ""
-            # 价格
-            self.price = ""
-            # 图片
-            self.image = ""
-            # 来源：亚马逊
-            self.source = ""
-            # 详情链接：
-            self.url = ""
-    def init():
-        keyword = kw
-        try:
-            initialMount = 30
-            # 这里需要为每一个网站分配爬取的数量，现在只有亚马逊一个
-            # 开启一个新的线程，亚马逊，京东，天猫，苏宁分别是独立的线程。
-            FirstThread = getInfoThread(keyword, "first", initialMount)
-            FirstThread.start()
-            FirstThread.join()
-            # print(111)
-            # 其他线程：……
-        except Exception as e:
-            print(str(e))
-    flag = False
-    if len(Goods.objects.filter(keyword=kw))==0:
-        init()
-        flag = True
-        time.sleep(2)
-    if not flag:
-        return redirect('polls:goodswithoutstarts',kw=kw)
+    startsypder =True
+    if len(Goods.objects.filter(keyword=kw))!=0:
+        startsypder = False
+        time.sleep(5)
+    if startsypder:
+        init(kw)
+        amount = 30
+        Amazon = getInfoThread(kw, "amazon", amount)
+        Amazon.start()
+        Jingdong = getInfoThread(kw, "jingdong", amount)
+        Jingdong.start()
+        Suning = getInfoThread(kw, "suning", amount)
+        Suning.start()
+        return redirect('polls:goods', kw=kw)
     else:
-        return redirect('polls:goods',kw=kw)
+        return redirect('polls:goods', kw=kw)

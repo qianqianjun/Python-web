@@ -6,7 +6,6 @@ app_name='polls'
 urlpatterns=[
     path('postKeyword',views.postKeyword),
     path('goods/<str:kw>',views.goods,name='goods'),
-    path('goodswithoutstart/<str:kw>',views.goodswithoutstarts,name="goodswithoutstarts"),
     path('',views.index,name='index'),
     path('barrage',views.barrage,name='barrage'),
 ]

@@ -34,7 +34,7 @@ a{
 }
 .item{
 	display: inline-block;
-	float: left;
+	/*float: left;*/
 	width: 220px;
 	padding: 3px;
 	height: 300px;
