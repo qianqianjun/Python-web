@@ -55,6 +55,7 @@
 				        	m.setAttribute("style","display:block;");
 				        	document.getElementById("container").setAttribute("style","display:none");
 				        	document.getElementById("screen").setAttribute("style","display:none");
+				        	clear_goto_machine();
 						},17000);
 						break;
 					}
@@ -171,6 +172,7 @@
         	document.getElementById("container").setAttribute("style","display:none");
         	document.getElementById("screen").setAttribute("style","display:none");
         	console.log(buySet);
+        	document.getElementsByTagName('body')[0].style.backgroundImage="url(/static/images/background.jpg)";
         	for(let elem=0;elem<arr.length;elem++)
         	{
         		clearInterval(arr[elem]);
@@ -205,7 +207,7 @@
             <span id="start" onclick="beginrun()"></span>
             <span class="end" onclick="endrun()"></span>
         	<div id="target">
-        		<a href="https://www.baidu.com" id="link">
+        		<a href="https://www.baidu.com" id="link" target="_blank">
         			<img src="" class="picture" id="image">
         		</a>
         	</div>
