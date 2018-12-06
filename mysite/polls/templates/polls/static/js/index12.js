@@ -32,7 +32,6 @@ $(".end").click(function(){
 // 数据格式是一个二维数组，二维数组的长度代表一共有多少个结果
 // 每一个一维数组的第一个元素为图片的地址,第二个为商品详情页面的地址。
 arr=null;
-resultSet=null;
 var index=0;
 // 获取两个元素
 image=document.getElementById("image");
@@ -43,15 +42,12 @@ function changeelem(src,url)
     image=document.getElementById("image");
     link=document.getElementById("link");
     image.setAttribute("src",src);
-    link.setAttribute("href",url);
-    console.log(src)
-    console.log(url);
-    console.log("-----------------");
+    link.setAttribute("href",url)
 }
 // 运行函数
-function run_machine()
+function run()
 {
     var i=index%arr.length;
     index+=1;
-    changeelem(resultSet[i][0],resultSet[i][1])
+    changeelem(arr[i][0],arr[i][1])
 }

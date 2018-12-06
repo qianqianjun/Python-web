@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>弹幕界面</title>
+	<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/static/css/style.css">
+	<script type="text/javascript" src="/static/js/index.js"></script>
+	<script type="text/javascript">
+		arr=new Array();
+		var count=0;
+		arr_m=new Array();
+		var index=0;
+        // 获取两个元素
+        image=document.getElementById("image");
+        link=document.getElementById("link");
+        // 改变元素
+        function changeelem(src,url)
+        {
+            image=document.getElementById("image");
+            link=document.getElementById("link");
+            image.setAttribute("src",src);
+            link.setAttribute("href",url);
+        }
+        // 运行函数
+        function run_m()
+        {
+            var i=index%count;
+            index+=1;
+            changeelem(arr_m[i][0],arr_m[i][1])
+        }
+		function run(id) {
+			index=parseInt(id.slice(1,id.length));
+			left=document.getElementById(id).style.left;
+			num=parseInt(left);
+			num+=1;
+			document.getElementById(id).style.left=""+num+"px";
+			if(num>=3000)
+			{
+				clearInterval(arr[index]);
+				document.getElementById(id).setAttribute("style","display:none");
+			}
+		}
+		$(document).ready(function () {
+			$(".screen").css("height",window.innerHeight+"px");
+			$(".screen").css("background-color","#92f7f742");
+			// 要买的商品序号将放在这个数组里面
+			buySet=new Array();
+			var num=0;
+			// 定义一共有多少商品
+			list=document.getElementById("goodslist");
+			total=list.children.length;
+			interval=setInterval(function () {
+				Row=new Array();
+				Col=new Array();
+				for(let i=0;i<3;i++)
+				{
+					Row.push(0);
+					Col.push(0);
+				}
+				// 规定每次显示的商品条数是多少
+				for(let i=num;i<num+2;i++)
+				{
+					if(i>=total)
+					{
+						setTimeout(function () {
+							clearInterval(interval);
+							document.getElementsByClassName("header")[0].style.display="none";
+							document.getElementsByClassName("center")[0].style.display="block";
+							document.getElementsByTagName("body")[0].style.background="url(/static/images/background.jpg)"
+						},17000);
+						break;
+					}
+					left=0;
+					top1=0;
+					while(true)
+					{
+						row=Math.round(Math.random()*3);
+						col=Math.round(Math.random()*3);
+						if(Row[row]==0&&Col[col]==0)
+						{
+							top1=col*250;
+							left=row*(-200);
+							Row[row]=1;
+							Col[col]=1;
+							break;
+						}
+					}
+					html="<div id='d"+i+"' class='item' onmouseover='stop(this.id)' onmouseout='go(this.id)' style='top:"+top1+"px;left:"+left+"px;' onclick='buy(this.id)'></div>";
+					$(".screen").append(html);
+					$("#d"+i).append(document.getElementById("c"+i).innerHTML);
+					arr.push(setInterval(function () {
+						run("d"+i);
+					},10));
+				}
+				num+=2;
+			},5000);
+
+		});
+		function go(id) {
+			index=parseInt(id.slice(1,id.length));
+			if(arr[index]!=null)
+				clearInterval(arr[index]);
+			arr[index]=setInterval(function() {
+				run(id);
+			},10);
+		}
+		function stop(id) {
+			index=parseInt(id.slice(1,id.length));
+			clearInterval(arr[index]);
+		}
+		function buy(id) {
+			index=parseInt(id.slice(1,id.length));
+			left=document.getElementById(id).style.left;
+			top2=document.getElementById(id).style.top;
+			numleft=parseInt(left);
+			numtop=parseInt(top2);
+			clearInterval(arr[index]);
+			buySet.push(index);
+			wid=window.innerWidth;
+			hei=window.innerHeight;
+			y=hei-numtop;
+			x=wid-numleft;
+			dx=x/y;
+			document.getElementById(id).setAttribute("onmouseout","");
+			cao=setInterval(function(argument) {
+				 numtop+=2;
+				 numleft+=2*dx;
+				 document.getElementById(id).style.left=""+numleft+"px";
+				 document.getElementById(id).style.top=""+numtop+"px";
+				 if(numleft>=wid)
+				 {
+				 	document.getElementById(id).setAttribute("display","none");
+				 	clearInterval(cao);
+				 }
+			},4);
+			c=document.getElementById(id).childNodes;
+			url1=c[1].childNodes[9].innerHTML
+			url0="'"+c[1].childNodes[9].innerHTML+"'";
+			url=url0.replace(/\s+/g,"");
+			image0=c[1].childNodes[1].childNodes[1].src;
+			image="'"+c[1].childNodes[1].childNodes[1].src+"'";
+            html="<div id='temp"+count+"'></div>";
+            $(".center1").append(html);
+            h="<a href="+url+"><image src="+image+" class='item_m'></a>";
+            h0="<a href='http://www.baidu.com'><image src="+image+" class='item_m'></a>";
+            $("#temp"+count).append(h);
+            arr_m[count]=new Array();
+            arr_m[count][0]=image0;
+            arr_m[count][1]=url1;
+            count+=1;
+
+		}
+        function beginrun()
+        {
+            if(interval!=null)
+                clearInterval(interval);
+            interval=setInterval(run_m,100);
+            document.getElementById('control').setAttribute("style","display:none");
+            document.getElementById('control2').setAttribute("style","display:inline-block")
+        };
+        function endrun() {
+            if(interval!=null)
+            {
+                clearInterval(interval);
+                console.log(interval);
+                document.getElementById('control2').setAttribute("style","display:none");
+                document.getElementById('control').setAttribute("style","display:inline-block")
+            }
+        }
+        function toMachine() {
+            	document.getElementsByClassName("header")[0].style.display="none";
+				document.getElementsByClassName("center")[0].style.display="block";
+				document.getElementsByTagName("body")[0].style.background="url(/static/images/background.jpg)";
+        }
+	</script>
+	<style type="text/css">
+		.item{
+			width: 200px;
+			height: 250px;
+			position: absolute;
+			left: -1000px;
+			top: 0px;
+			/*background-color: red;*/
+			background-image: url(/static/images/ball.png);
+			background-size: cover;
+			background-repeat: no-repeat;
+			background-position: center center;
+		}
+	</style>
+</head>
+<body style="overflow: hidden;">
+
+    <div class="header">
+        <div class="screen">
+        </div>
+        <div class="container" onclick="toMachine()"></div>
+        <div style="display: none;" id="goodslist">
+            <!-- 下面用循环输出就好，js已经实现了所有的功能，无序后端信号 -->
+            <!-- 一条商品信息开始 -->
+            <!-- 这个id是确定的，表示这是第几个数据，从0开始算 -->
+
+           {% for item,id in good_id %}
+            <div id=c{{id}} class={{ item.id }} >
+
+                <div class="content">
+                    <div class="image">
+                        <img src={{ item.picture }}>
+                    </div>
+                    <div class="price">
+                        {{ item.price }}
+                    </div>
+                    <div class="name">
+                        {{ item.name }}
+                    </div>
+                    <div class="source">
+                        {{ item.source }}
+                    </div>
+                    <div class="url">
+                        {{ item.url }}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="center" style="display: none;">
+        <div class="machine">
+            <span id="start" onclick="beginrun()"></span>
+            <span class="end" onclick="endrun()"></span>
+{# {% for item in goods|slice:":1" %}#}
+{#                        <form action="/polls/barrage" method="post">#}
+{#                            <input type="hidden" name="barrage_kw"  value={{item.keyword }}>#}
+{#                            <button type="submit"><img style="position: absolute;  right: 0;top: 0; border: 0;z-index:999999999" src="/static/images/ribbon.png" alt="Barrage" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png"></button>#}
+{#                        </form>#}
+{#                {% endfor %}#}
+
+            <div id="target">
+                 {% for item in goods|slice:":1" %}
+                 <a href={{ item.url }} id="link">
+                    <img src={{ item.picture }} class="item_m" id="image">
+                 </a>
+                 {% endfor %}
+            </div>
+
+            <div id="control"></div>
+            <div id="control2" style="display: none;"></div>
+        </div>
+        <div class="center1">
+        </div>
+    </div>
+</body>
+</html>

@@ -5,9 +5,15 @@
 	<title>弹幕界面</title>
 	<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="/static/css/style.css">
-	<script type="text/javascript" src="/static/js/index.js"></script>
+	<!-- <script type="text/javascript" src="/static/js/index.js"></script> -->
 	<script type="text/javascript">
 		arr=new Array();
+		buySet=new Array();
+		resultSet=null;
+		elemindex=0;
+		// 获取两个元素
+		image=document.getElementById("image");
+		link=document.getElementById("link");
 		function run(id) {
 			index=parseInt(id.slice(1,id.length));
 			left=document.getElementById(id).style.left;
@@ -24,11 +30,12 @@
 			$(".screen").css("height",window.innerHeight+"px");
 			$(".screen").css("background-color","#92f7f742");
 			// 要买的商品序号将放在这个数组里面
-			buySet=new Array();
 			var num=0;
+			resultSet=new Array();
 			// 定义一共有多少商品
 			list=document.getElementById("goodslist");
 			total=list.children.length;
+			interval_machine=null;
 			interval=setInterval(function () {
 				Row=new Array();
 				Col=new Array();
@@ -44,7 +51,10 @@
 					{
 						setTimeout(function () {
 							clearInterval(interval);
-							window.location.href="https://www.baidu.com";
+				        	m=document.getElementById("center");
+				        	m.setAttribute("style","display:block;");
+				        	document.getElementById("container").setAttribute("style","display:none");
+				        	document.getElementById("screen").setAttribute("style","display:none");
 						},17000);
 						break;
 					}
@@ -87,13 +97,23 @@
 			clearInterval(arr[index]);
 		}
 		function buy(id) {
+			rowitem=new Array();
+			Divs=document.getElementById(id).children[0].children[0];
+			image_src=Divs.children[1].src;
+			detail_url=Divs.children[0].href;
+			console.log(image_src);
+			console.log(detail_url);
+			rowitem.push(image_src);
+			rowitem.push(detail_url);
+			resultSet.push(rowitem);
+			console.log(resultSet);
 			index=parseInt(id.slice(1,id.length));
 			left=document.getElementById(id).style.left;
 			top2=document.getElementById(id).style.top;
 			numleft=parseInt(left);
-			numtop=parseInt(top2)
+			numtop=parseInt(top2);
 			clearInterval(arr[index]);
-			buySet.push(index);
+			buySet.push(id);
 			wid=window.innerWidth;
 			hei=window.innerHeight;
 			y=hei-numtop;
@@ -112,6 +132,54 @@
 				 }
 			},4);
 		}
+
+
+		function beginrun() {
+            if(interval_machine!=null)
+                clearInterval(interval_machine);
+            interval_machine=setInterval(run_machine,100);
+            document.getElementById('control').setAttribute("style","display:none");
+            document.getElementById('control2').setAttribute("style","display:inline-block")
+        };
+        function endrun() {
+            if(interval_machine!=null)
+            {
+                clearInterval(interval_machine);
+                console.log(interval_machine);
+                document.getElementById('control2').setAttribute("style","display:none");
+                document.getElementById('control').setAttribute("style","display:inline-block")
+            }
+        }
+        function changeelem(src,url)
+		{
+		    image=document.getElementById("image");
+		    link=document.getElementById("link");
+		    image.setAttribute("src",src);
+		    link.setAttribute("href",url);
+		}
+		// 运行函数
+		function run_machine()
+		{
+		    var i=elemindex%resultSet.length;
+		    elemindex+=1;
+		    changeelem(resultSet[i][0],resultSet[i][1])
+		}
+        function clear_goto_machine() {
+        	clearInterval(interval);
+        	m=document.getElementById("center");
+        	m.setAttribute("style","display:block;");
+        	document.getElementById("container").setAttribute("style","display:none");
+        	document.getElementById("screen").setAttribute("style","display:none");
+        	console.log(buySet);
+        	for(let elem=0;elem<arr.length;elem++)
+        	{
+        		clearInterval(arr[elem]);
+        	}
+        	for(let ids=0;ids<buySet.length;ids++)
+        	{
+        		document.getElementById(buySet[ids]).setAttribute("style","display:block;width:1px;height:1px;");
+        	}
+        }
 	</script>
 	<style type="text/css">
 		.item{
@@ -129,19 +197,28 @@
 	</style>
 </head>
 <body style="overflow: hidden;">
-	<div class="screen">
+	<div class="screen" id="screen">
 	</div>
-	<div class="container"></div>
+	<div class="container" onclick="clear_goto_machine()" id="container"></div>
+	<div class="center" style="display: none;" id="center">
+        <div class="machine">
+            <span id="start" onclick="beginrun()"></span>
+            <span class="end" onclick="endrun()"></span>
+        	<div id="target">
+        		<a href="https://www.baidu.com" id="link">
+        			<img src="" class="picture" id="image">
+        		</a>
+        	</div>
+        	<div id="control"></div>
+            <div id="control2" style="display: none;"></div>
+        </div>
+	</div>
 	<div style="display: none;" id="goodslist">
-		<!-- 下面用循环输出就好，js已经实现了所有的功能，无序后端信号 -->
-		<!-- 一条商品信息开始 -->
-		<!-- 这个id是确定的，表示这是第几个数据，从0开始算 -->
-
        {% for item,id in good_id %}
 		<div id=c{{id}}>
-
 			<div class="content">
 				<div class="image">
+					<a href={{item.url}}></a>
 					<img src={{ item.picture }}>
 				</div>
 				<div class="price">

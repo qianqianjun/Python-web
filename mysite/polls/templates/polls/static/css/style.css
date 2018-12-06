@@ -123,10 +123,17 @@ width: 350px;
     font-size: 15px;
     margin-left: 15px;
     color: #998484;
+    width: 96%;
+    height: 20px;
+    overflow: hidden;
+    line-height: 20px;
 }
 .source{
     font-size: 20px;
     margin-left: 15px;
     color: #999;
     text-decoration: underline;
+}
+.picture{
+    width: 350px;
 }

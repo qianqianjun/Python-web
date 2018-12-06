@@ -118,7 +118,7 @@ def postKeyword(request):
     startsypder =True
     if len(Goods.objects.filter(keyword=kw))!=0:
         startsypder = False
-        time.sleep(5)
+        time.sleep(6)
     if startsypder:
         init(kw)
         amount = 30
